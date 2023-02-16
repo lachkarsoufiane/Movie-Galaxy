@@ -12,6 +12,8 @@ const tagsEl = document.getElementById("tags");
 const suggestions = document.getElementById("suggestions");
 const favorite = document.querySelectorAll("favorite");
 
+var pagFavorite = false; 
+
 const genres = [
   {
     id: 28,
@@ -100,7 +102,7 @@ function favMovies() {
   getMovies(API_URL, true);
 }
 
-// Obtener todos los movies
+// Obtener los movies
 function getMovies(url, fav) {
   fetch(url)
     .then((res) => res.json())
@@ -110,6 +112,7 @@ function getMovies(url, fav) {
     });
 }
 
+
 function getSearch(url) {
   var resultado;
   // lastUrl = url;
@@ -117,7 +120,7 @@ function getSearch(url) {
     .then((res) => res.json())
     .then((data) => {
       console.log(data.results);
-      if (data.results.length !== 0) {
+      if (data.results.length !== null) {
         showMovies(data.results);
       } else {
         main.innerHTML = `<h1 class="no-results">No Results Found</h1>`;
@@ -131,9 +134,8 @@ function showMovies(data, fav) {
 
   data.forEach((movie) => {
     if (fav) {
-      // alert(movie.id);
+      pagFavorite = true;
       if (estaFavorite(movie.id)) {
-        // alert("hello");
         addElements(movie);
       }
     } else {
@@ -255,6 +257,10 @@ const addToFavorites = (id) => {
       localStorage["favorites"] = favs.toString();
     } else {
       deleteFromFavorites(id);
+    }
+    // si estamos en la pagina de favoritos, cuando quitamos el corazon, recargamos la pagina para que la pelicula se elimina.
+    if(pagFavorite){
+      getMovies(API_URL, true);
     }
   }
 };
