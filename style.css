@@ -202,6 +202,47 @@ header .search {
   color: rgb(255, 80, 80);
 }
 
+
+/* Pagina de buscar */
+#contenidorSug {
+  display: flex;
+  flex-direction: column;
+}
+#contenidorSug a {
+  display: block;
+  color: #18122b;
+  text-decoration: none;
+  padding: 10px 0;
+  font-size: larger;
+  transition: all 0.3s ease;
+}
+
+#contenidorSug a:hover {
+  background-color: #df4f4f;
+}
+
+#contenidorSug .sug span {
+  color: rgba(0, 0, 0, 0.5) ;
+}
+
+.buscar {
+  background-color: #e4e4e4;
+  width: 500px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+.buscar input {
+  
+  width: 100%;
+  height: 25px;
+}
+
+.no-resultados {
+  color: black;
+}
+
 /* Responsive */
 
 @media only screen and (max-width: 750px) {

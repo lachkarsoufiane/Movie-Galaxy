@@ -9,8 +9,9 @@ const main = document.getElementById("main");
 const form = document.getElementById("form");
 const filter = document.getElementById("filter");
 const tagsEl = document.getElementById("tags");
-const suggestions = document.getElementById("suggestions");
+const contenidor = document.getElementById("contenidorSug");
 const favorite = document.querySelectorAll("favorite");
+const buscar = document.getElementById("buscar");
 
 var pagFavorite = false; 
 
@@ -114,20 +115,34 @@ function getMovies(url, fav) {
 
 
 function getSearch(url) {
-  var resultado;
-  // lastUrl = url;
+  
+  contenidor.innerHTML = "";
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
       console.log(data.results);
-      if (data.results.length !== 0) {
-        showMovies(data.results);
+      var datos = data.results; 
+      if (datos.length !== 0) {
+        datos.slice(-5).forEach((movie) => {
+          const {title, release_date} = movie;
+          const suggestions = document.createElement("div");
+          suggestions.classList.add("sug");
+          var date = release_date.split("-");
+
+          suggestions.innerHTML = `
+          <a href="#" ">${title}<span>(${date[0]})</span></a>
+          `;
+          contenidor.appendChild(suggestions);
+        });
+      
       } else {
-        main.innerHTML = `<h1 class="no-results">No Results Found</h1>`;
+        contenidor.innerHTML = `<p class="no-resultados">no hay resultados</p>`;
       }
     });
-  return resultado;
-}
+    
+};
+
+
 
 function showMovies(data, fav) {
   main.innerHTML = "";
@@ -186,16 +201,30 @@ function addElements(movie) {
 }
 
 // mostrar search
-filter.addEventListener("keyup", (e) => {
-  const aBuscar = filter.value;
+if(!!filter){
+  filter.addEventListener("keyup", (e) => {
+    var aBuscar = filter.value;
 
-  if (aBuscar.length >= 3) {
-    getMovies(searchURL + "&query=" + aBuscar);
-  } else {
-    getMovies(API_URL);
-  }
-});
+    if (aBuscar.length >= 3) {
+      getMovies(searchURL + "&query=" + aBuscar);
+    } else {
+      getMovies(API_URL);
+    }
+  });
+};
 
+if(!!buscar){
+  buscar.addEventListener("keyup", (e) => {
+    var aBuscar = buscar.value;
+    if(aBuscar.length >= 3) {
+      getSearch(searchURL + "&query=" + aBuscar);
+    }else {
+      contenidor.innerHTML = "";
+    }
+  });
+};
+
+// Funcion que obtene la puntuacion del pelicula y devuelva un color
 function getColor(vote) {
   if (vote >= 8) {
     return "green";
