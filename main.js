@@ -120,7 +120,7 @@ function getSearch(url) {
     .then((res) => res.json())
     .then((data) => {
       console.log(data.results);
-      if (data.results.length !== null) {
+      if (data.results.length !== 0) {
         showMovies(data.results);
       } else {
         main.innerHTML = `<h1 class="no-results">No Results Found</h1>`;

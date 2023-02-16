@@ -204,7 +204,7 @@ header .search {
 
 /* Responsive */
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 750px) {
   .movie {
     flex-direction: column;
   }
@@ -241,7 +241,7 @@ header .search {
   header {
     padding: 0;
   }
-  
+
   .input-search::placeholder {
     color: #18122b;
   }
