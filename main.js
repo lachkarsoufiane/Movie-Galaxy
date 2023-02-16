@@ -7,10 +7,7 @@ const IMG_URL = "https://image.tmdb.org/t/p/w500";
 const searchURL = BASE_URL + "/search/movie?" + API_KEY;
 const buscarURL = BASE_URL + "/movie/";
 
-// https://api.themoviedb.org/3/movie/505642?api_key=914a2c08ae7cd071c54f919321806503
-
 const main = document.getElementById("main");
-const form = document.getElementById("form");
 const filter = document.getElementById("filter");
 const tagsEl = document.getElementById("tags");
 const contenidor = document.getElementById("contenidorSug");
