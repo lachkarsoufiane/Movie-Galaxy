@@ -22,8 +22,8 @@ body {
   transition: all 0.2s ease-in-out;
 }
 
-.navMenu a:hover{
-  color : #7a68b6;
+.navMenu a:hover {
+  color: #7a68b6;
 }
 
 #main {
@@ -202,41 +202,70 @@ header .search {
   color: rgb(255, 80, 80);
 }
 
+.no-favorites {
+  color: white;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.no-favorites a {
+  color: #e4e4e4;
+  font-size: larger;
+  display: block;
+  margin-top: 10px;
+}
 
 /* Pagina de buscar */
 #contenidorSug {
   display: flex;
   flex-direction: column;
 }
-#contenidorSug a {
+#contenidorSug .list {
   display: block;
   color: #18122b;
-  text-decoration: none;
-  padding: 10px 0;
+  padding: 10px 10px;
+  margin: 0;
   font-size: larger;
+  cursor: pointer;
   transition: all 0.3s ease;
+  text-align: left;
 }
 
-#contenidorSug a:hover {
+#contenidorSug .list:hover {
   background-color: #df4f4f;
 }
 
 #contenidorSug .sug span {
-  color: rgba(0, 0, 0, 0.5) ;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 .buscar {
   background-color: #e4e4e4;
   width: 500px;
-    margin-right: auto;
-    margin-left: auto;
-    text-align: center;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+  border-radius: 25px;
 }
 
 .buscar input {
-  
-  width: 100%;
-  height: 25px;
+  width: 476px;
+  background-color: #e4e4e483;
+  border: none;
+  font-family: "Questrial", sans-serif;
+  font-size: 17px;
+  padding: 0 10px;
+  height: 40px;
+  border-radius: 25px;
+  transition: all 0.5s ease;
+}
+
+.buscar input:focus {
+  outline: none;
+  border: none;
+  background-color: #e4e4e483;
 }
 
 .no-resultados {
@@ -259,8 +288,8 @@ header .search {
     margin-bottom: 50px;
   }
 }
-  
-@media only screen and (max-width:550px) {
+
+@media only screen and (max-width: 550px) {
   header form {
     position: absolute;
     top: 110px;

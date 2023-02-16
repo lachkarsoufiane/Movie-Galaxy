@@ -1,8 +1,7 @@
 const API_KEY = "api_key=914a2c08ae7cd071c54f919321806503";
 const lang = "es-ES";
 const BASE_URL = "https://api.themoviedb.org/3";
-const API_URL =
-  BASE_URL + "/discover/movie?sort_by=popularity.desc&page=2&" + API_KEY;
+const API_URL = BASE_URL + "/discover/movie?sort_by=popularity.desc&" + API_KEY;
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 const searchURL = BASE_URL + "/search/movie?" + API_KEY;
 const buscarURL = BASE_URL + "/movie/";
@@ -98,45 +97,32 @@ const genres = [
   },
 ];
 
-function getAllMovies() {
+// Pagina principal
+function todosMovies() {
   getMovies(API_URL);
+}
+// Pagina favoritas
+function favMovies() {
+  getMovies(API_URL, true);
 }
 
 // Obtener los movies
-function getMovies(url) {
+function getMovies(url, fav) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
       console.log(data.results);
-      if (!data.results.length == 0) {
-        showMovies(data.results);
-      } else {
-        main.innerHTML = "<p class='no-resultados'>no hay resultados</p>";
-      }
+      showMovies(data.results, fav);
     });
 }
 
-function getMovie(url, more) {
+function getMovie(url) {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
       console.log(data);
-      showMovie(data, more);
+      showMovie(data);
     });
-}
-
-function getFavMovies() {
-  var moviesID = getFavorites();
-  pagFavorite = true;
-
-  if (moviesID.length !== 0) {
-    moviesID.forEach((id) => {
-      getMovie(buscarURL + id + "?" + API_KEY, true);
-    });
-  } else {
-    main.innerHTML =
-      "<div class='no-favorites'><h1>Nada que ver aqui</h1><a href='index.html'> vuelva a la pagina principal</a><a href='buscar.html'>Pagina de búsqueda</a></div>";
-  }
 }
 
 // Mostrar listado de buscar
@@ -166,10 +152,9 @@ function getSearch(url) {
     });
 }
 
-function showMovie(data, more) {
-  if (!more) {
-    clearMain();
-  }
+function showMovie(data) {
+  main.innerHTML = "";
+
   const {
     title,
     poster_path,
@@ -202,55 +187,64 @@ function showMovie(data, more) {
    </div>
 
 `;
-  if (!more) {
-    contenidor.innerHTML = "";
-  }
+  contenidor.innerHTML = "";
   main.appendChild(movieEl);
 }
 
 function showMovies(data, fav) {
-  clearMain();
+  main.innerHTML = "";
 
   data.forEach((movie) => {
-    const {
-      title,
-      poster_path,
-      vote_average,
-      overview,
-      genre_ids,
-      original_language,
-      release_date,
-      id,
-    } = movie;
-    const movieEl = document.createElement("div");
-    movieEl.classList.add("movie");
-    movieEl.innerHTML = `
-  
-               <img src="${
-                 poster_path
-                   ? IMG_URL + poster_path
-                   : "http://via.placeholder.com/1080x1580"
-               }" alt="${title}">
-                <div class="info">
-                    <h2 class="title">${title}</h2>
-                    <p class="fecha">${release_date}</p>
-                    <p class="overview">
-                        ${overview}
-                    </p>
-                    <p class="genero">${getGenero(genre_ids)}</p>
-                    <p class="lenguaje">${original_language}</p>
-                    <p class="puntuacion" style="background-color: ${getColor(
-                      vote_average
-                    )}">${vote_average}</p>
-                    <button id="${id}" class="favorite ${
-      estaFavorite(id) ? "my-favorite" : ""
-    }" onclick="addToFavorites(${id})"><i class="fa fa-heart"></i></button>
-                </div>
-          
-          `;
-
-    main.appendChild(movieEl);
+    if (fav) {
+      pagFavorite = true;
+      if (estaFavorite(movie.id)) {
+        addElements(movie);
+      }
+    } else {
+      addElements(movie);
+    }
   });
+}
+
+function addElements(movie) {
+  const {
+    title,
+    poster_path,
+    vote_average,
+    overview,
+    genre_ids,
+    original_language,
+    release_date,
+    id,
+  } = movie;
+  const movieEl = document.createElement("div");
+  movieEl.classList.add("movie");
+  movieEl.innerHTML = `
+
+             <img src="${
+               poster_path
+                 ? IMG_URL + poster_path
+                 : "http://via.placeholder.com/1080x1580"
+             }" alt="${title}">
+              <div class="info">
+                  <h2 class="title">${title}</h2>
+                  <p class="fecha">${release_date}</p>
+                  <p class="overview">
+                      ${overview}
+                  </p>
+                  <p class="genero">${getGenero(genre_ids)}</p>
+                  <p class="lenguaje">${original_language}</p>
+                  <p class="puntuacion" style="background-color: ${getColor(
+                    vote_average
+                  )}">${vote_average}</p>
+                  <button id="${id}" class="favorite ${
+    estaFavorite(id) ? "my-favorite" : ""
+  }" onclick="addToFavorites(${id})"><i class="fa fa-heart"></i></button>
+              </div>
+        
+        `;
+
+  main.appendChild(movieEl);
 }
 
 // mostrar search
@@ -339,11 +333,11 @@ const addToFavorites = (id) => {
       localStorage["favorites"] = favs.toString();
     } else {
       deleteFromFavorites(id);
-      if (pagFavorite) {
-        location.reload();
-      }
     }
     // si estamos en la pagina de favoritos, cuando quitamos el corazon, recargamos la pagina para que la pelicula se elimina.
+    if (pagFavorite) {
+      getMovies(API_URL, true);
+    }
   }
 };
 
@@ -356,8 +350,4 @@ const deleteFromFavorites = (id) => {
     ? delete localStorage["favorites"]
     : (localStorage["favorites"] = favs.toString());
   document.getElementById(id).className = "favorite";
-};
-
-const clearMain = () => {
-  main.innerHTML = "";
 };
