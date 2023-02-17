@@ -258,7 +258,6 @@ function showMovies(data) {
                 </div>
           
           `;
-
     main.appendChild(movieEl);
   });
 }
@@ -276,8 +275,8 @@ function getSearch(url) {
       var datos = data.results;
       // Si hay datos o Peliculas que tiene el titulo contiene la palabra introducida por la input de buscar
       if (datos.length !== 0) {
-        // Cogemos solo siete resultados (para que no rellinan toda la página)
-        datos.slice(-7).forEach((movie) => {
+        // Recorremos los datos de peliculas
+        datos.forEach((movie) => {
           // cogemos los datos que necisitamos
           const { id, title, release_date } = movie;
           // creamos una nueva div para cada resultado
@@ -288,7 +287,7 @@ function getSearch(url) {
           suggestions.innerHTML = `
           <div class="list" onclick="getMovie(
             buscarURL + ${id} + '?' + API_KEY
-          )" >${title}<span>(${date[0]})</span></div>
+          )" >${title}<span> (${date[0]})</span></div>
           `;
           contenidor.appendChild(suggestions);
         });

@@ -37,7 +37,7 @@ header {
   max-width: 1200px;
   margin-right: auto;
   margin-left: auto;
-  background: rgb(78, 32, 108);
+  /* background: rgb(78, 32, 108); */
   background: linear-gradient(
     90deg,
     rgba(78, 32, 108, 1) 0%,
@@ -217,6 +217,9 @@ header .search {
 #contenidorSug {
   display: flex;
   flex-direction: column;
+  max-height: 300px;
+  overflow-y:scroll;
+  /* transition: all 0.5s ease; */
 }
 #contenidorSug .list {
   display: block;
@@ -225,31 +228,48 @@ header .search {
   margin: 0;
   font-size: larger;
   cursor: pointer;
-  transition: all 0.3s ease;
+
   text-align: left;
 }
 
 #contenidorSug .list:hover {
-  background-color: #df4f4f;
+  background: linear-gradient(
+    90deg,
+    rgba(78, 32, 108, 1) 0%,
+    rgba(252, 69, 69, 1) 100%
+  );
+  color: white;
 }
+
+#contenidorSug .list:hover span {
+  color: rgba(255, 255, 255, 0.5);
+} 
 
 #contenidorSug .sug span {
   color: rgba(0, 0, 0, 0.5);
 }
 
+
 .buscar {
-  background-color: #e4e4e4;
-  width: 500px;
-  margin-right: auto;
-  margin-left: auto;
-  text-align: center;
-  border-radius: 25px;
-  overflow: hidden;
+  position: absolute;
+    left: 50%;
+    z-index: 2;
+    top: 110px;
+    transform: translate(-50%);
+    background-color: #e4e4e4;
+    width: 500px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    border-radius: 25px;
+    overflow: hidden;
 }
 
+
+
 .buscar input {
-  width: 476px;
-  background-color: #e4e4e483;
+  width: 480px;
+  background-color: #a08ce079;
   border: none;
   font-family: "Questrial", sans-serif;
   font-size: 17px;
