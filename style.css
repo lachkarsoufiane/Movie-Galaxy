@@ -266,7 +266,12 @@ header .search {
 }
 
 .no-resultados {
-  color: black;
+  color: white;
+  text-align: center;
+  font-size: x-large;
+}
+.black {
+  color: #18122b;
 }
 
 /* Responsive */
