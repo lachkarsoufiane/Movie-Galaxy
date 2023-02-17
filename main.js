@@ -443,3 +443,6 @@ const deleteFromFavorites = (id) => {
 const clearMain = () => {
   main.innerHTML = "";
 };
+
+
+
