@@ -1,5 +1,5 @@
 // Definir los enlaces necesarios
-const API_KEY = "api_key=914a2c08ae7cd071c54f919321806503";
+const API_KEY = "#";
 // const lang = "es-ES";
 const BASE_URL = "https://api.themoviedb.org/3";
 const API_URL =
